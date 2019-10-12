@@ -1,0 +1,27 @@
+###########################################################################################################
+# DO Community Playbooks
+# Playbook: Initial Server Setup
+# Based on: https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04
+# Dedicated Guide: https://www.digitalocean.com/community/tutorials/automating-initial-server-setup-with-ansible
+###################################################################################################################
+
+---
+- hosts: all
+  remote_user: peter
+  gather_facts: false
+  vars:
+    non_root_sudo_user: peter
+    conda_packages: ['numpy', 'pandas', 'matplotlib', 'jupyter','sympy','xlrd',] 
+
+  tasks:
+    - name: Download miniconda
+      get_url: 
+        url: https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        dest: /tmp/miniconda.sh
+
+    - name: Change miniconda installer permissions to executable
+      file: dest=/tmp/miniconda.sh mode=a+x
+
+#    - name: Run miniconda installer script
+#      script: /tmp/miniconda.sh -b -p /opt/miniconda
+#      become: yes
