@@ -1,0 +1,21 @@
+# install-miniconda.yml
+# see installer list: https://repo.anaconda.com/miniconda/
+# see checksum list:https://conda.io/en/latest/miniconda_hashes.html
+# Thanks to aksakalli for :https://gist.github.com/aksakalli/72d54b22ce4da2ee81eb1a58cbc67a0c
+---
+- hosts: all
+  remote_user: peter
+  gather_facts: false
+
+  tasks:
+    - name: Create conda env jupyterhub
+      shell: /opt/miniconda3/bin/conda create -y --prefix /opt/miniconda3/envs/jupyterhub
+    - name: Install NumPy Matplotlib Pandas Jupyter JupyterLab xlrd
+      shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub numpy matplotlib pandas jupyter xlrd
+    - name: Install JupyterHub
+      shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub -c conda-forge jupyterhub
+    - name: jupyterhub env - read permission for all
+      file:
+        path: /opt/miniconda3/envs/jupyterhub
+        mode: +r
+        recurse: yes

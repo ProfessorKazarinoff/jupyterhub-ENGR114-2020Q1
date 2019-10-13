@@ -1,0 +1,24 @@
+# ssl_cirt.yml
+# still in testing phase. Make sure to change my_domanin.com to an actual domain
+# don't know where the SSL cirts end up
+# domain needs to be hooked up to Digital Ocean Droplet
+# email address needs to be changed
+
+---
+- hosts: all
+  vars:
+    my_domain: mydomain_name.com
+    my_email: my.email@gmail.edu
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: open port 80 to allow Cirtbot to test SSL cirt
+      shell: ufw allow 80
+    - name: Download Cirtbot installer
+      get_url:
+        url: https://dl.eff.org/certbot-auto
+        dest: /tmp/certbot-auto
+        mode: 0550
+    - name: Run certbot-auto
+      shell: "/tmp/certbot-auto certonly --standalone --non-interactive --agree-tos  --domain {{ my_domain }} --email {{ my_email }}"

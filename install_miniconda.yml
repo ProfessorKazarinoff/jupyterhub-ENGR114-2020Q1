@@ -1,27 +1,45 @@
-###########################################################################################################
-# DO Community Playbooks
-# Playbook: Initial Server Setup
-# Based on: https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04
-# Dedicated Guide: https://www.digitalocean.com/community/tutorials/automating-initial-server-setup-with-ansible
-###################################################################################################################
-
+# install-miniconda.yml
+# see installer list: https://repo.anaconda.com/miniconda/
+# see checksum list:https://conda.io/en/latest/miniconda_hashes.html
+# Thanks to aksakalli for :https://gist.github.com/aksakalli/72d54b22ce4da2ee81eb1a58cbc67a0c
 ---
 - hosts: all
-  remote_user: peter
+  remote_user: root
   gather_facts: false
-  vars:
-    non_root_sudo_user: peter
-    conda_packages: ['numpy', 'pandas', 'matplotlib', 'jupyter','sympy','xlrd',] 
 
   tasks:
-    - name: Download miniconda
-      get_url: 
-        url: https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-        dest: /tmp/miniconda.sh
-
-    - name: Change miniconda installer permissions to executable
-      file: dest=/tmp/miniconda.sh mode=a+x
-
-#    - name: Run miniconda installer script
-#      script: /tmp/miniconda.sh -b -p /opt/miniconda
-#      become: yes
+    - name: Download Miniconda
+      get_url:
+        url: https://repo.continuum.io/miniconda/Miniconda3-4.7.10-Linux-x86_64.sh
+        dest: /tmp/install-miniconda.sh
+        checksum: sha256:8a324adcc9eaf1c09e22a992bb6234d91a94146840ee6b11c114ecadafc68121
+        mode: 0550
+    - name: Create miniconda3 directory
+      become: True
+      file:
+        path: /opt/miniconda3
+        state: directory
+        owner: peter
+        mode: 755
+        recurse: yes
+    - name: Run the Miniconda installer
+      shell: /tmp/install-miniconda.sh -b -u -p /opt/miniconda3
+    - name: Remove the installer
+      file:
+        state: absent
+        path: /tmp/install-miniconda.sh
+    - name: Add conda bin to path
+      become: True
+      shell: echo 'export PATH=/opt/miniconda3/bin:$PATH' >> /etc/profile
+    - name: conda - read permission for all
+      become: True
+      file:
+        path: /opt/miniconda3
+        mode: +r
+        recurse: yes
+    - name: conda - execution permission for all
+      become: True
+      file:
+        path: /opt/miniconda3/bin
+        mode: +x
+        recurse: yes

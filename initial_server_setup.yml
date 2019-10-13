@@ -12,7 +12,7 @@
   vars:
     create_user: peter
     copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-    sys_packages: ['curl', 'vim', 'git', 'ufw'] 
+    sys_packages: ['curl','vim', 'git', 'ufw','wget'] 
 
   tasks:
     - name: Create a new regular user with sudo privileges
@@ -22,6 +22,11 @@
         append: true
         create_home: true
         shell: /bin/bash
+
+    - name: Make sure we have a 'peter' group
+      group:
+        name: peter
+        state: present
 
     - name: Copy SSH keys from root to sudo user
       command: rsync --archive --chown={{ create_user  }}:{{ create_user }} ~/.ssh /home/{{ create_user }}

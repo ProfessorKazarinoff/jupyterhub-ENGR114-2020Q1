@@ -1,0 +1,23 @@
+# nginx_config.yml
+# still in development phase
+---
+- hosts: all
+  remote_user: root
+  gather_facts: false
+  tasks:
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: /local/copy/of/nginx.cfg
+        dest: /etc/nginx/sites-available/juypyterhub.cfg
+      become: yes
+    - name: create symlink from jupyterhub.cfg to the sites-enabled dir
+      file:
+        src: /etc/nginx/sites-available/jupyterhub.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      become: yes
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
