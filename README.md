@@ -68,6 +68,15 @@ nano hosts
 
 ### Create var.yml file that is copy of example_vars.yml
 
+On the host machine, create a password to use for the managed machine user we are going to create
+
+```
+sudo apt-get install -y whois
+mkpasswd --method=sha-512      #copy result to clip board
+```
+
+Then on the host machine, add the hashed password, IP addresses, 
+
 ```
 cp example_vars.yml vars.yml
 nano vars.yml
@@ -79,23 +88,23 @@ nano vars.yml
 Run the initial server setup playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```<user>``` with your username or use the path to your ```hosts``` file that has the server IP address in it. (still in development: create a password on the control node with the line ```openssl passwd -1 <my text password>``` copy the resulting hashed password into the ```initial_server_setup.yml``` playbook.)
 
 ```
-ansible-playbook -i /home/<user>/jupyterhub-ENGR114-2020Q1/hosts initial_server_setup.yml
+ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts initial_server_setup.yml
 ```
 
 ### Run miniconda installer playbook
 
-Run the miniconda installer playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```<user>``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
+Run the miniconda installer playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```peter``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
 
 ```
-ansible-playbook -i /home/<user>/jupyterhub-ENGR114-2020Q1/hosts install_miniconda.yml
+ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts install_miniconda.yml
 ```
 
 ### Run the install jupyterhub playbook
 
-Run the install jupyterhub playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```<user>``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
+Run the install jupyterhub playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```peter``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
 
 ```
-ansible-playbook -i /home/<user>/jupyterhub-ENGR114-2020Q1/hosts install_jupyterhub.yml
+ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts install_jupyterhub.yml
 ```
 
 ### Link a domain name to DO server
@@ -107,7 +116,7 @@ Link a domain name to the Digital Ocean server.
 Change the domain name (the one hooked up to Digital Ocean Server) and email address in ```ssl_cirt.yml```. Then run the playbook. This playbook is still in testing phase.
 
 ```
-ansible-playbook -i /home/<user>/jupyterhub-ENGR114-2020Q1/hosts ssl_cirt.yml
+ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts ssl_cirt.yml
 ```
 
 ### Cookie Secret and Proxy Auth Token
@@ -129,3 +138,11 @@ ansible-playbook -i /home/<user>/jupyterhub-ENGR114-2020Q1/hosts ssl_cirt.yml
 ### Cull Idle Servers script
 
 ### Test
+
+## In Development
+
+change vars.yml and hosts then run the site
+
+```
+ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts site.yml
+```

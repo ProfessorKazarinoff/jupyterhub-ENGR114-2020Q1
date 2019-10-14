@@ -16,13 +16,17 @@
         state: directory
         group: peter
       become: yes
+
     - name: Create conda env jupyterhub
       shell: /opt/miniconda3/bin/conda create -y --prefix /opt/miniconda3/envs/jupyterhub
       become: yes
-    - name: Install NumPy Matplotlib Pandas Jupyter JupyterLab xlrd
+
+    - name: Install NumPy Matplotlib Pandas Jupyter xlrd
       shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub numpy matplotlib pandas jupyter xlrd
+
     - name: Install JupyterHub and JupyterLab
       shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub -c conda-forge jupyterhub jupyterlab
+
     - name: jupyterhub env - read permission for all
       file:
         path: /opt/miniconda3/envs/jupyterhub

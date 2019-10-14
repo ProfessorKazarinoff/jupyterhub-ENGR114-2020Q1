@@ -1,10 +1,6 @@
 # site.yml
-#
-# master Ansible playbook that runs all the other playbooks
----
----
-# file: site.yml
+# master playbook that runs other playbooks
 - import_playbook: initial_server_setup.yml
 - import_playbook: install_miniconda.yml
 - import_playbook: install_jupyterhub.yml
-- import_playbook: ssl_cirt.yml
+#- import_playbook: ssl_cirt.yml
