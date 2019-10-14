@@ -26,6 +26,9 @@
         password: "{{ password_hash }}"
         shell: /bin/bash
 
+    - name: add user to the sudoers file
+      command: usermod -aG sudo peter
+      
     - name: Make sure we have a 'peter' group
       group:
         name: peter
