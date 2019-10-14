@@ -4,7 +4,7 @@
 # Thanks to aksakalli for :https://gist.github.com/aksakalli/72d54b22ce4da2ee81eb1a58cbc67a0c
 ---
 - hosts: all
-  remote_user: peter
+  remote_user: root
   gather_facts: false
 
   tasks:
