@@ -65,7 +65,7 @@ nano hosts
 
 ### Run initial server setup playbook
 
-Run the initial server setup playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```<user>``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
+Run the initial server setup playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```<user>``` with your username or use the path to your ```hosts``` file that has the server IP address in it. (still in development: create a password on the control node with the line ```openssl passwd -1 <my text password>``` copy the resulting hashed password into the ```initial_server_setup.yml``` playbook.)
 
 ```
 ansible-playbook -i /home/<user>/jupyterhub-ENGR114-2020Q1/hosts initial_server_setup.yml
