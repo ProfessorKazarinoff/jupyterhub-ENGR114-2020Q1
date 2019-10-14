@@ -15,9 +15,12 @@ Install Ansible on host machine (control node). Can be MacOS, Linux Desktop, WSL
 #### On Linux local or remote machine
 
 ```
-sudo apt update
-sudo apt upgrade
-sudo apt install ansible
+sudo apt-get update -y update && apt-get -y upgrade
+adduser peter #add password
+usermod -aG sudo peter
+rsync --archive --chown=peter:peter ~/.ssh /home/peter
+su - peter
+sudo apt install -y ansible
 ```
 
 #### On MacOS
@@ -37,7 +40,7 @@ On the control node, create an SSH keypair or make sure an exhisting SSH key pai
 #### Create SSH Keys on Linux, WSL
 
 ```
-ssh-keygen
+ssh-keygen     # no password, save in default location
 ```
 
 ### Create server
@@ -61,6 +64,14 @@ cd jupyterhub-ENGR114-2020Q1
 cp example_hosts hosts
 nano hosts
 # add IP address to hosts file. ctrl-x to save
+```
+
+### Create var.yml file that is copy of example_vars.yml
+
+```
+cp example_vars.yml vars.yml
+nano vars.yml
+# add domain name, server IP addresses and hashed password
 ```
 
 ### Run initial server setup playbook

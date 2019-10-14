@@ -12,7 +12,9 @@
   vars:
     create_user: peter
     copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-    sys_packages: ['curl','vim', 'git', 'ufw','wget'] 
+    sys_packages: ['curl','vim', 'git', 'ufw','wget','whois']
+  vars_files:
+    - vars.yml
 
   tasks:
     - name: Create a new regular user with sudo privileges
@@ -21,6 +23,7 @@
         state: present
         append: true
         create_home: true
+        password: "{{ password_hash }}"
         shell: /bin/bash
 
     - name: Make sure we have a 'peter' group
