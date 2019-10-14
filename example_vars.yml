@@ -1,0 +1,8 @@
+# example_vars.yml
+# copy as file vars.yml and fill in
+---
+control_node_ip:
+manged_node_ip:
+my_domain:
+do_api_key:
+my_email:

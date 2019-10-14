@@ -6,9 +6,8 @@
 
 ---
 - hosts: all
-  vars:
-    my_domain: mydomain_name.com
-    my_email: my.email@gmail.edu
+  vars_files:
+    - vars.yml       
   remote_user: root
   gather_facts: false
 

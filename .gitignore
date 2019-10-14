@@ -116,3 +116,12 @@ hosts/
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+# API keys
+do_api_key.json
+
+# Test ansible script to get SSH keys from Digital Ocean
+get-do-ssh-keys.yml
+
+# Defined Variables
+vars.yml
