@@ -1,0 +1,20 @@
+# get-ssh-key-ids.yml
+# an Ansible playbook to get all of the DO SSH key ID's (numeric)
+---
+- name: get ssh key ids
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: False
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: get the DO SSH key IDs
+      local_action:
+        module: digital_ocean_sshkey_facts 
+             oauth_token={{ do_api_key }}
+             timeout=30
+      register: my_ssh_keys
+    - name: print info about ssh keys
+      local_action:
+        module:  debug
+            msg="ID is {{ my_ssh_keys.id }} IP is {{ my_droplet.droplet.ip_address }}"
