@@ -21,8 +21,8 @@
       shell: /opt/miniconda3/bin/conda create -y --prefix /opt/miniconda3/envs/jupyterhub
       become: yes
 
-    - name: Install NumPy Matplotlib Pandas Jupyter xlrd
-      shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub numpy matplotlib pandas jupyter xlrd
+    - name: Install NumPy Matplotlib Pandas Jupyter xlrd SymPy
+      shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub numpy matplotlib pandas jupyter xlrd sympy
 
     - name: Install JupyterHub and JupyterLab
       shell: /opt/miniconda3/bin/conda install -y --prefix /opt/miniconda3/envs/jupyterhub -c conda-forge jupyterhub jupyterlab
