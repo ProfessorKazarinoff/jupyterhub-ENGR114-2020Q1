@@ -125,3 +125,6 @@ get-do-ssh-keys.yml
 
 # Defined Variables
 vars.yml
+
+# Saved SSH keys
+ssh_keys.txt
