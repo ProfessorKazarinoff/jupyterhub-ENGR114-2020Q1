@@ -17,4 +17,4 @@
     - name: print info about ssh keys
       local_action:
         module:  debug
-            msg="ID is {{ my_ssh_keys.id }} IP is {{ my_droplet.droplet.ip_address }}"
+            msg="ID is {{ my_ssh_keys.id }}"
