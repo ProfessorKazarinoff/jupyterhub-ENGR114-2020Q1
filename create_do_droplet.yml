@@ -1,27 +1,36 @@
 # create_do_droplet.yml
 # an Ansible playbook to create a new Digital Ocean Droplet
 ---
-    - name: create new digital ocean droplet
-      digital_ocean:
-        state: present
-        command: droplet
-        name: managed-node
-        api_token: "{{ do_api_key }}"
-        size_id: 1gb
-        region_id: sfo2
-        imaged_id: ubuntu-18-04-x86
-        id: "{{ droplet_id }}"
-        wait_timeout: 500
-      register: managed_node
-    - debug:
-        msg: "ID is {{ managed_node.droplet.id }}"
-    - debug:
-        msg: "IP address is {{ managed_node.droplet.ip_address }}"
-#    - name: add ssh keys from .ssh/authorized_keys to managed node
-#      authorized_key:
-#        user: root
-#        state: present
-#        key: '{{ item }}'
-#      with_file:
-#        - /home/peter/.ssh/authorized_keys
-#        - /home/peter/.ssh/id_rsa.pub
+- name: launch DO droplet
+  hosts: local
+  gather_facts: False
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: spin up DO droplet
+      local_action:
+        module: digital_ocean 
+             api_token={{ do_api_key }}
+             backups_enabled=no
+             command=droplet
+             id={{ droplet_id }}
+             image_id=ubuntu-18-04-x86
+             private_networking=no
+             region_id=sfo2
+             size_id=1gb
+             ssh_pub_keys=
+             state=present
+             unique_name=no
+             wait=yes
+             wait_timeout=500
+      register: my_droplet
+    - name: print info about my_droplet
+      local_action:
+        module:  debug
+            msg="ID is {{ my_droplet.droplet.id }} IP is {{ my_droplet.droplet.ip_address }}"
+            
+    - name: Add new droplet to host group
+      local_action: add_host hostname={{ my_droplet.droplet.ip_address }} groupname=launched
+  
+    - name: Wait for SSH to come up
+      local_action: wait_for host={{ my_droplet.droplet.ip_address }} port=22 delay=60 timeout=320 state=started
