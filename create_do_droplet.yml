@@ -2,7 +2,8 @@
 # an Ansible playbook to create a new Digital Ocean Droplet
 ---
 - name: launch DO droplet
-  hosts: local
+  hosts: 127.0.0.1
+  connection: local
   gather_facts: False
   vars_files:
     - vars.yml
