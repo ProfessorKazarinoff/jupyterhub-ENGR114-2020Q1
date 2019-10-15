@@ -19,7 +19,7 @@
              private_networking=no
              region_id=sfo2
              size_id=1gb
-             ssh_pub_keys={{ lookup('file', '/home/charlie/.ssh/id_rsa.pub') }}
+             ssh_pub_keys={{ lookup('file', '/home/peter/.ssh/id_rsa.pub') }}
              state=present
              unique_name=no
              wait=yes
