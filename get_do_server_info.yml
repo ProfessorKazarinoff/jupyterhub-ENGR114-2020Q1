@@ -1,0 +1,14 @@
+# get_do_server_info.yml
+---
+- hosts: all
+  remote_user: root
+  gather_facts: true
+    vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Gather information about all droplet sizes
+      digital_ocean_size_info:
+        oauth_token: "{{ do_api_key }}"
+      register: resp_out
+    - debug: var=resp_out
