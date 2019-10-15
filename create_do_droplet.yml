@@ -1,0 +1,27 @@
+# create_do_droplet.yml
+# an Ansible playbook to create a new Digital Ocean Droplet
+---
+    - name: create new digital ocean droplet
+      digital_ocean:
+        state: present
+        command: droplet
+        name: managed-node
+        api_token: "{{ do_api_key }}"
+        size_id: 1gb
+        region_id: sfo2
+        imaged_id: ubuntu-18-04-x86
+        id: "{{ droplet_id }}"
+        wait_timeout: 500
+      register: managed_node
+    - debug:
+        msg: "ID is {{ managed_node.droplet.id }}"
+    - debug:
+        msg: "IP address is {{ managed_node.droplet.ip_address }}"
+#    - name: add ssh keys from .ssh/authorized_keys to managed node
+#      authorized_key:
+#        user: root
+#        state: present
+#        key: '{{ item }}'
+#      with_file:
+#        - /home/peter/.ssh/authorized_keys
+#        - /home/peter/.ssh/id_rsa.pub

@@ -7,4 +7,5 @@ my_domain:
 do_api_key:
 my_email:
 password_hash: 
-non_root_sudo_user:
+non_root_sudo_username:
+droplet_id: 
