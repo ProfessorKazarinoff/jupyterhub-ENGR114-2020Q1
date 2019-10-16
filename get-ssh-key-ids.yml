@@ -19,4 +19,10 @@
         module:  debug
             msg="ID is {{ my_ssh_keys['ansible_facts'] }}"
     - name: copy ssh key array dict to local file
-      local_action: copy content="{{ my_ssh_keys['ansible_facts'] }}" dest=/home/peter/jupyterhub-ENGR114-2020Q1/ssh_keys.txt
+      local_action: copy content="{{ my_ssh_keys['ansible_facts'] }}" dest=/home/peter/Documents/jupyterhub-ENGR114-2020Q1/ssh_keys.json
+    - name: display ssh key ID's
+      local_action:
+        module: debug
+        #  var: item
+        msg: "The key ID's are {{ ssh_keys | json_query('ansible_facts.ssh_keys[*]') }}"
+ 

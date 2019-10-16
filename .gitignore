@@ -128,3 +128,4 @@ vars.yml
 
 # Saved SSH keys
 ssh_keys.txt
+ssh_keys.json
