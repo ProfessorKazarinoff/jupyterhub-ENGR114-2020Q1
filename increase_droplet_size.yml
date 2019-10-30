@@ -1,0 +1,21 @@
+# increase_droplet_size.yml
+# an Ansible playbook to increase the size of a droplet
+# requires that doctl cli is installed on local machine
+# sudo snap install doctl
+---
+- name: increase droplet size
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: False
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: authenticate with doctl cli
+      command: doctl auth init
+      # then need to figure out a way to pass the do oauth token
+    - name: shut down droplet
+      command: doctl compute droplet-action shutdown {{ droplet_id }}
+    - name: resize droplet
+      command: doctl compute droplet-action resize {{ droplet_id }} --size 16gb
+    - name: restart droplet
+      command: doctl compute droplet-action reboot {{ droplet_id }}

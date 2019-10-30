@@ -8,13 +8,13 @@
   gather_facts: false
 
   tasks:
-    - name: create a copy of cull_idle_servers.py script into /etc/jupyterhub dir
-      copy:
-        src: /local/copy/of/cull_idle_servers.py
+    - name: download cull_idle_servers.py script into /etc/jupyterhub dir
+      get_url:
+        url: https://raw.githubusercontent.com/jupyterhub/jupyterhub/master/examples/cull-idle/cull_idle_servers.py
         dest: /etc/jupyterhub/cull_idle_servers.py
         owner: root
         group: sudo
-        mode: 0660
+        mode: 0770
       become: yes
 # need a step to generate then export a JUPYTERHUB_API_TOKEN
 # could use c.JupyterHub.api_tokens = {'secret-token':'username'} in jupyterhub_config.py and then somehow import that into the cull_idle_servers.py script

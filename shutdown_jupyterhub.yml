@@ -1,0 +1,19 @@
+# shutdown_jupyterhub.yml
+# an ansible playbook to shut down jupyterhub and nginx
+
+---
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: stop jupyterhub service
+      service:
+        name: jupyterhub
+        state: stopped
+      become: yes
+    - name: stop nginx service
+      service:
+        name: nginx
+        state: stopped
+      become: yes

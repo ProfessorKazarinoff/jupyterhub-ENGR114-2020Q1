@@ -1,0 +1,19 @@
+# restart_jupyterhub.yml
+# an ansible playbook to restart jupyterhub and nginx
+
+---
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: restart nginx service
+      service:
+        name: nginx
+        state: started
+      become: yes
+    - name: restart jupyterhub service
+      service:
+        name: jupyterhub
+        state: started
+      become: yes
