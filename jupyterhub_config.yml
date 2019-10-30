@@ -1,2 +1,30 @@
 # jupyterhub_config.yml
+# an Ansible playbook to build a jupyterhub_config.py file and restart nginx
+# see https://professorkazarinoff.github.io/jupyterhub-engr101/jupyterhub_config/
 ---
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: create /etc/jupyterhub directory
+      file:
+        path: /etc/jupyterhub
+        mode: 0770
+        recurse: yes
+        state: directory
+        group: peter
+      become: yes
+    - name: copy the initial jupyterhub_config.py
+      copy:
+        src: /local/copy/of/jupyterhub_config.py
+        dest: /etc/jupyterhub/jupyterhub_config.py
+        owner: root
+        group: sudo
+        mode: 0770
+      become: yes
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes

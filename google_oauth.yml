@@ -1,2 +1,36 @@
 # google_oauth.yml
+# an Ansible playbook to add google oauth to jupyterhub
+# see: https://professorkazarinoff.github.io/jupyterhub-engr101/google_oauth/
 ---
+
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: copy google_oauth_credentials.json file to /etc/jupyterhub dir
+      copy:
+        src: /local/copy/of/google_oauth_credentials.json
+        dest: /etc/jupyterhub/google_oauth_credentials.json
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+    - name: copy updated jupyterhub_config.py file with google oauth included
+      copy:
+        src: /local/copy/of/google_oath/version_of/jupyterhub_config.py
+        dest: /etc/jupyterhub/jupyterhub_config.py
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+    - name: use pip to install oauthenticator in the /opt/miniconda3/envs/jupyterhub virtual env
+      pip:
+        name: oauthenticator
+        virtualenv: /opt/miniconda3/envs/jupyterhub
+      become: yes
+    - name: reload jupyterhub system service
+      service:
+        name: jupyterhub
+        state: restarted
+      become: yes

@@ -1,2 +1,23 @@
 # system_service.yml
+# an Ansible playbook to create a system service that runs jupyterhub
+# see https://professorkazarinoff.github.io/jupyterhub-engr101/systemd/
 ---
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: copy the jupyterhub.service file to /etc/systemd/system/jupyterhub.service
+      copy:
+        src: /local/copy/of/jupyterhub.service
+        dest: /etc/systemd/system/jupyterhub.service
+        owner: root
+        group: sudo
+        mode: 0770
+      become: yes
+    - name: reload systemd daemon and start jupyterhub system service
+      service:
+        name: jupyterhub
+        daemon_reload: yes
+        state: started
+      become: yes

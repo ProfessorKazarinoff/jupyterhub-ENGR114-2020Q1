@@ -1,2 +1,42 @@
 # custom_login_page.yml
+# an ansible playbook to create a custom login page on jupyterhub
+# see https://professorkazarinoff.github.io/jupyterhub-engr101/custom_login_page/
 ---
+
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: create a copy of jupyterhub templates
+      command: cp -R /opt/miniconda3/envs/jupyterhub/share/jupyterhub/templates /etc/jupyterhub/templates/
+      become: yes
+    - name: copy custom login.html file into /etc/jupyterhub/templates/
+      copy:
+        src: /local/copy/of/login.html
+        dest: /etc/jupyterhub/templates/login.html
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+    - name: copy custom css file into /opt/miniconda3/envs/jupyterhub/share/jupyterhub/static/css
+      copy:
+        src: /local/copy/of/style.min.css
+        dest: /opt/miniconda3/envs/jupyterhub/share/jupyterhub/static/css/style.min.css
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+    - name: copy updated jupyterhub_config.py file
+      copy:
+        src: /local/copy/of/jupyterhub_config.py/with/template/paths/set
+        dest: /etc/jupyterhub/jupyterhub_config.py
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+    - name: reload jupyterhub system service
+      service:
+        name: jupyterhub
+        state: restarted
+      become: yes

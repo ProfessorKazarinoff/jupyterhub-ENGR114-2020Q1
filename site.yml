@@ -1,6 +1,16 @@
 # site.yml
-# master playbook that runs other playbooks
+# master ansible playbook that runs other ansible playbooks
+# see steps in menu of https://professorkazarinoff.github.io/jupyterhub-engr101/
+
 - import_playbook: initial_server_setup.yml
 - import_playbook: install_miniconda.yml
 - import_playbook: install_jupyterhub.yml
-#- import_playbook: ssl_cirt.yml
+- import_playbook: ssl_cirt.yml
+- import_playbook: cookie_secret_and_proxy_auth_token.yml
+- import_playbook: nginx_install.yml
+- import_playbook: nginx_config.yml
+- import_playbook: jupyterhub_config.yml
+- import_playbook: system_service.yml
+- import_playbook: google_oath.yml
+- import_playbook: custom_login_page.yml
+- import_playbook: cull_idle_servers.yml

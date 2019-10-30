@@ -1,2 +1,33 @@
 # cull_idle_servers.yml
+# an ansible playbook to add a cull idle servers script to jupyterhub and update the jupyterhub config
+# see https://professorkazarinoff.github.io/jupyterhub-engr101/extra_configuration/#cull-idle-servers
 ---
+
+- hosts: all
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: create a copy of cull_idle_servers.py script into /etc/jupyterhub dir
+      copy:
+        src: /local/copy/of/cull_idle_servers.py
+        dest: /etc/jupyterhub/cull_idle_servers.py
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+# need a step to generate then export a JUPYTERHUB_API_TOKEN
+# could use c.JupyterHub.api_tokens = {'secret-token':'username'} in jupyterhub_config.py and then somehow import that into the cull_idle_servers.py script
+    - name: copy updated jupyterhub_config.py file
+      copy:
+        src: /local/copy/of/jupyterhub_config.py/with/cull_idle_servers
+        dest: /etc/jupyterhub/jupyterhub_config.py
+        owner: root
+        group: sudo
+        mode: 0660
+      become: yes
+    - name: reload jupyterhub system service
+      service:
+        name: jupyterhub
+        state: restarted
+      become: yes
