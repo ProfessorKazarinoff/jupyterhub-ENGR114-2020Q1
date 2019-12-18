@@ -2,7 +2,9 @@
 
 JupyterHub deployment for Portland Community College's ENGR114 Engineering Programming class Winter 2019
 
-Uses Ansible playbooks to deploy JupyterHub on Ubuntu 18.04 servers running on Digital Ocean
+Documentation available at: [https://professorkazarinoff.github.io/jupyterhub-ENGR114-2020Q1/](https://professorkazarinoff.github.io/jupyterhub-ENGR114-2020Q1/)
+
+Attempts to use Ansible playbooks to deploy JupyterHub on Ubuntu 18.04 servers running on Digital Ocean
 
 ## Deployment steps
 
@@ -14,7 +16,7 @@ Install Ansible on host machine (control node). Can be MacOS, Linux Desktop, WSL
 
 #### On Linux local or remote machine
 
-```
+```text
 sudo apt-get update -y update && apt-get -y upgrade
 adduser peter #add password
 usermod -aG sudo peter
@@ -27,7 +29,7 @@ sudo apt install -y ansible
 
 create a virtual env
 
-```
+```text
 conda create -n ansible python=3.7
 conda activate ansible
 conda istall -c conda-forge ansible
@@ -39,7 +41,7 @@ On the control node, create an SSH keypair or make sure an exhisting SSH key pai
 
 #### Create SSH Keys on Linux, WSL
 
-```
+```text
 ssh-keygen     # no password, save in default location
 ```
 
@@ -51,7 +53,7 @@ copy the IP address of the server to the clipboard
 
 ### Clone the deployment repo that contains the Ansible playbooks
 
-```
+```text
 git clone https://github.com/professorkazarinoff/jupyterhub-ENGR114-2020Q1.git
 ```
 
@@ -59,7 +61,7 @@ git clone https://github.com/professorkazarinoff/jupyterhub-ENGR114-2020Q1.git
 
 Create a hosts file that is a copy of the example_hosts file
 
-```
+```text
 cd jupyterhub-ENGR114-2020Q1
 cp example_hosts hosts
 nano hosts
@@ -70,14 +72,14 @@ nano hosts
 
 On the host machine, create a password to use for the managed machine user we are going to create
 
-```
+```text
 sudo apt-get install -y whois
 mkpasswd --method=sha-512      #copy result to clip board
 ```
 
 Then on the host machine, add the hashed password, IP addresses, 
 
-```
+```text
 cp example_vars.yml vars.yml
 nano vars.yml
 # add domain name, server IP addresses and hashed password
@@ -87,7 +89,7 @@ nano vars.yml
 
 Run the initial server setup playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```<user>``` with your username or use the path to your ```hosts``` file that has the server IP address in it. (still in development: create a password on the control node with the line ```openssl passwd -1 <my text password>``` copy the resulting hashed password into the ```initial_server_setup.yml``` playbook.)
 
-```
+```text
 ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts initial_server_setup.yml
 ```
 
@@ -95,7 +97,7 @@ ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts initial_server_s
 
 Run the miniconda installer playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```peter``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
 
-```
+```text
 ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts install_miniconda.yml
 ```
 
@@ -103,7 +105,7 @@ ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts install_minicond
 
 Run the install jupyterhub playbook using ```ansible-playbook```. Supply the hosts file as inventory. Make sure the ```(ansible)``` virtual environment is active first. Make sure to replace ```peter``` with your username or use the path to your ```hosts``` file that has the server IP address in it.
 
-```
+```text
 ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts install_jupyterhub.yml
 ```
 
@@ -115,7 +117,7 @@ Link a domain name to the Digital Ocean server.
 
 Change the domain name (the one hooked up to Digital Ocean Server) and email address in ```ssl_cirt.yml```. Then run the playbook. This playbook is still in testing phase.
 
-```
+```text
 ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts ssl_cirt.yml
 ```
 
@@ -143,6 +145,6 @@ ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts ssl_cirt.yml
 
 change vars.yml and hosts then run the site
 
-```
+```text
 ansible-playbook -i /home/peter/jupyterhub-ENGR114-2020Q1/hosts site.yml
 ```

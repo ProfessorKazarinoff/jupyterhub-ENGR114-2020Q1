@@ -207,3 +207,7 @@ fabric.properties
 
 # google oauth credentials
 google_oauth_credentials.json
+
+# mkdocs site
+
+docs/site/
