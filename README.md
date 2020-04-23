@@ -1,6 +1,6 @@
 # jupyterhub-ENGR114-2020Q1
 
-JupyterHub deployment for Portland Community College's ENGR114 Engineering Programming class Winter 2019
+JupyterHub deployment for Portland Community College's ENGR114 Engineering Programming class Winter 2020
 
 Documentation available at: [https://professorkazarinoff.github.io/jupyterhub-ENGR114-2020Q1/](https://professorkazarinoff.github.io/jupyterhub-ENGR114-2020Q1/)
 
